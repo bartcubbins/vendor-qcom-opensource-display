@@ -78,6 +78,7 @@ using ::aidl::vendor::qti::hardware::display::config::IDisplayConfigCallback;
 using ::aidl::vendor::qti::hardware::display::config::CameraSmoothOp;
 using ::aidl::vendor::qti::hardware::display::config::Attributes;
 using ::aidl::vendor::qti::hardware::display::config::DisplayPortType;
+using ::aidl::vendor::qti::hardware::display::config::Concurrency;
 
 namespace aidl::vendor::qti::hardware::display::config {
   class DisplayConfigAIDL;
@@ -146,6 +147,7 @@ class HWCSession : hwc2_device_t, HWCUEventListener, public qClient::BnQClient,
     kClientIdlepowerCollapse,
     kClientTeardownCWB,
     kClientTrustedUI,
+    kClientConcurrency,
     kClientMax
   };
 
@@ -309,6 +311,7 @@ class HWCSession : hwc2_device_t, HWCUEventListener, public qClient::BnQClient,
                              int64_t *client_handle);
   int UnregisterCallbackClient(const int64_t client_handle);
   int NotifyResolutionChange(int32_t disp_id, Attributes& attr);
+  int NotifyFpsMitigation(int32_t disp_id, Attributes attr, Concurrency con);
 
   virtual int RegisterClientContext(std::shared_ptr<DisplayConfig::ConfigCallback> callback,
                                     DisplayConfig::ConfigInterface **intf);
@@ -321,6 +324,8 @@ class HWCSession : hwc2_device_t, HWCUEventListener, public qClient::BnQClient,
                                     uint32_t refresh_rate, uint32_t qsync_refresh_rate);
   virtual void VmReleaseDone(hwc2_display_t display);
   virtual int NotifyCwbDone(int dpy_index, int32_t status, uint64_t handle_id);
+  virtual void NotifyConcurrencyFps(const float fps, DisplayConcurrencyType concurrency,
+                                    bool concurrency_begin);
 
   int32_t SetVsyncEnabled(hwc2_display_t display, int32_t int_enabled);
   int32_t GetDozeSupport(hwc2_display_t display, int32_t *out_support);
