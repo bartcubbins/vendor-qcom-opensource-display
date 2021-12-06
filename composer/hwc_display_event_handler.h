@@ -37,6 +37,8 @@
 #ifndef __HWC_DISPLAY_EVENT_HANDLER_H__
 #define __HWC_DISPLAY_EVENT_HANDLER_H__
 
+#include <core/core_interface.h>
+
 namespace sdm {
 
 class HWCDisplayEventHandler {
@@ -46,6 +48,8 @@ class HWCDisplayEventHandler {
                                     uint32_t refresh_rate, uint32_t qsync_refresh_rate) = 0;
   virtual void VmReleaseDone(hwc2_display_t display) = 0;
   virtual int NotifyCwbDone(int dpy_index, int32_t status, uint64_t handle_id) = 0;
+  virtual void NotifyConcurrencyFps(const float fps, DisplayConcurrencyType concurrency,
+                                    bool concurrency_begin) = 0;
 
  protected:
   virtual ~HWCDisplayEventHandler() {}

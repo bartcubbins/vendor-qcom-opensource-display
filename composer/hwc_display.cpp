@@ -3675,6 +3675,13 @@ void HWCDisplay::NotifyCwbDone(int32_t status, const LayerBuffer& buffer) {
            status);
 }
 
+DisplayError HWCDisplay::NotifyFpsMitigation(const float fps,
+                                             DisplayConcurrencyType concurrency,
+                                             bool concurrency_begin) {
+  event_handler_->NotifyConcurrencyFps(fps, concurrency, concurrency_begin);
+  return kErrorNone;
+}
+
 void HWCDisplay::Abort() {
   display_intf_->Abort();
 }
